@@ -16,7 +16,7 @@ module.exports = function (app) {
   app.use('/characters', createService(options));
 
   // Get our initialized service so that we can register hooks
-  const service = app.service('evesso');
+  const service = app.service('characters');
 
   service.hooks(hooks);
 };

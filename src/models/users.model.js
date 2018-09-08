@@ -23,9 +23,9 @@ module.exports = function (app) {
 
   // eslint-disable-next-line no-unused-vars
   users.associate = function (models) {
-    models.users.hasMany(models.evesso);
     // Define associations here
     // See http://docs.sequelizejs.com/en/latest/docs/associations/
+    models.users.hasMany(models.characters);
   };
 
   return users;

@@ -40,9 +40,9 @@ module.exports = function (app) {
 
   // eslint-disable-next-line no-unused-vars
   characters.associate = function (models) {
-    models.evesso.belongsTo(models.users);
     // Define associations here
     // See http://docs.sequelizejs.com/en/latest/docs/associations/
+    models.characters.belongsTo(models.users);
   };
 
   return characters;
