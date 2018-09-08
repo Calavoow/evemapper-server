@@ -1,9 +1,9 @@
 {
   "development": {
-    "username": "evemapper",
-    "password": null,
+    "username": "postgres",
+    "password": "postgrespw",
     "database": "evemapper",
-    "host": "localhost:5432",
+    "host": "localhost",
     "dialect": "postgres"
   },
   "test": {

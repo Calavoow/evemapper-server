@@ -1,7 +1,7 @@
-// Initializes the `evesso` service on path `/evesso`
+// Initializes the `characters` service on path `/characters`
 const createService = require('feathers-sequelize');
-const createModel = require('../../models/evesso.model');
-const hooks = require('./evesso.hooks');
+const createModel = require('../../models/characters.model');
+const hooks = require('./characters.hooks');
 
 module.exports = function (app) {
   const Model = createModel(app);
@@ -13,7 +13,7 @@ module.exports = function (app) {
   };
 
   // Initialize our service with any options it requires
-  app.use('/evesso', createService(options));
+  app.use('/characters', createService(options));
 
   // Get our initialized service so that we can register hooks
   const service = app.service('evesso');
