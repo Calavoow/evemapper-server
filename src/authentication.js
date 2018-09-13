@@ -1,9 +1,12 @@
+const Debug = require('debug');
+const debug = Debug('authentication');
 const authentication = require('@feathersjs/authentication');
 const jwt = require('@feathersjs/authentication-jwt');
 
 const oauth2 = require('@feathersjs/authentication-oauth2');
 // const FacebookStrategy = require('passport-facebook');
 const EveSsoStrategy = require('passport-eveonline-sso');
+const CharactersVerifier = require('./services/characters/CharactersVerifier.js');
 
 module.exports = function (app) {
   const config = app.get('authentication');
@@ -19,7 +22,8 @@ module.exports = function (app) {
 
   app.configure(oauth2(Object.assign({
     name: 'evesso',
-    Strategy: EveSsoStrategy
+    Strategy: EveSsoStrategy,
+    Verifier: CharactersVerifier
   }, config.evesso)));
 
   // The `authentication` service is used to create a JWT.
@@ -35,4 +39,5 @@ module.exports = function (app) {
       ]
     }
   });
+  debug('test');
 };

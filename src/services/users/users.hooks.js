@@ -1,3 +1,5 @@
+const Debug = require('debug');
+const debug = Debug('services/users:hooks');
 const { authenticate } = require('@feathersjs/authentication').hooks;
 const hooks = require('feathers-hooks-common');
 
@@ -8,7 +10,7 @@ module.exports = {
     all: [],
     find: [ authenticate('jwt') ],
     get: [ authenticate('jwt') ],
-    create: [ hooks.disallow('external') ],
+    create: [ hooks.disallow('external'), customUser()],
     update: [ hooks.disallow('external') ],
     patch: [ hooks.disallow('external') ],
     remove: [hooks.disallow('external')]
@@ -38,3 +40,10 @@ module.exports = {
     remove: []
   }
 };
+
+function customUser() {
+  return function (context) {
+    debug('Customizing user');
+    return Promise.resolve(context);
+  };
+}

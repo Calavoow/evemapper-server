@@ -27,7 +27,7 @@ module.exports = function (app) {
     refreshToken: {
       type: DataTypes.STRING
     },
-    expiresIn: {
+    expiresOn: {
       type: DataTypes.DATE
     }
   }, {
@@ -42,7 +42,10 @@ module.exports = function (app) {
   characters.associate = function (models) {
     // Define associations here
     // See http://docs.sequelizejs.com/en/latest/docs/associations/
-    models.characters.belongsTo(models.users);
+    models.characters.belongsTo(models.users, {
+      foreignKey: {
+        allowNull: false
+      }, onDelete: 'cascade'});
   };
 
   return characters;

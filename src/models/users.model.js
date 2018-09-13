@@ -2,7 +2,6 @@
 // for more of what you can do here.
 const Sequelize = require('sequelize');
 const DataTypes = Sequelize.DataTypes;
-const console = require('console');
 
 module.exports = function (app) {
   const sequelizeClient = app.get('sequelizeClient');

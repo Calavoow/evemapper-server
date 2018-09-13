@@ -1,13 +1,15 @@
+const Debug = require('debug');
+const debug = Debug('services/characters:hooks');
 const {authenticate} = require('@feathersjs/authentication').hooks;
-const console = require('console');
 
 module.exports = {
   before: {
     all: [],
     find: [authenticate('jwt')],
     get: [authenticate('jwt')],
-    create: [customizeEveSSO()],
-    update: [customizeEveSSO(),
+    create: [setEveSsoContext,
+      createAssociatedUser],
+    update: [setEveSsoContext,
       authenticate('jwt')],
     patch: [authenticate('jwt')],
     remove: [authenticate('jwt')]
@@ -34,25 +36,39 @@ module.exports = {
   }
 };
 
-function customizeEveSSO() {
-  return function (context) {
-    console.log('Customizing EVE Profile');
-    // If there is a github field they signed up or
-    // signed in with github so let's pull the primary account email.
-    if (context.data.github) {
-      context.data.email = context.data.github.profile.emails.find(email => email.primary).value;
-    }
+/**
+ * Set the context data parameters from context.data.evesso.
+ * @param context
+ * @returns {Promise<*>}
+ */
+async function setEveSsoContext(context) {
+  if (context.data.evesso) {
+    debug('EveSSO context available. Setting relevant data fields.');
+    // Set the appropriate data fields
+    const evesso = context.data.evesso;
+    context.data.accessToken = evesso.accessToken;
+    context.data.refreshToken = evesso.refreshToken;
+    const profile = evesso.profile;
+    context.data.eveCharacterId = profile.CharacterID;
+    context.data.name = profile.CharacterName;
+    context.data.characterOwnerHash = profile.CharacterOwnerHash;
+    context.data.expiresOn = profile.ExpiresOn;
+  }
+  return context;
+}
 
-    // If you want to do something whenever any OAuth
-    // provider authentication occurs you can do this.
-    if (context.params.oauth) {
-      // do something for all OAuth providers
-    }
+/**
+ * Create a user and associate it with the context.data character
+ * @param context
+ * @returns {Promise<*>}
+ */
+async function createAssociatedUser(context) {
+  // Set the user this character belongs to.
+  // TODO: Associate with exisiting user.
+  // Create a new user
+  const users = context.app.service('users');
+  const user = await users.create({name: context.data.name});
+  context.data.userId = user.id;
 
-    if (context.params.oauth.provider === 'github') {
-      // do something specific to the github provider
-    }
-
-    return Promise.resolve(context);
-  };
+  return context;
 }
