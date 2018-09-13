@@ -44,8 +44,13 @@ class CharactersVerifier extends oauth2.Verifier {
       .find({ query })
       .then(this._normalizeResult)
       .then(entity => entity ? this._updateEntity(entity, data) : this._createEntity(data))
-      .then(entity => this._setPayloadAndDone(entity, done))
-      .catch(error => error ? done(error) : done(null, error));
+      .then(entity => {
+        done(null, entity, {'userId': entity.id});
+      })
+      .catch(error => {
+        debug(`An error occured when update character information: ${error}`);
+        error ? done(error) : done(null, error);
+      });
   }
 }
 
