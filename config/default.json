@@ -7,6 +7,7 @@
     "max": 50
   },
   "authentication": {
+    "secret": "mysecret",
     "strategies": [
       "jwt",
       "evesso"
@@ -45,6 +46,7 @@
       ]
     },
     "evesso": {
+      "callbackURL": "http://localhost/server/auth/evesso/callback",
       "successRedirect": "/",
       "scope": [
         "esi-location.read_location.v1",
@@ -57,11 +59,12 @@
       "service": "characters"
     },
     "cookie": {
-      "enabled": true,
+      "enabled": false,
       "name": "feathers-jwt",
-      "httpOnly": false,
+      "httpOnly": true,
+      "sameSite": true,
       "secure": false
     }
   },
-  "postgres": "postgres://evemapper:@localhost:5432/evemapper"
+  "postgres": "postgres://evemapper:test@localhost:5432/evemapper"
 }

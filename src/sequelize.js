@@ -41,7 +41,7 @@ module.exports = function (app) {
   const connectionString = app.get('postgres');
   const sequelize = new Sequelize(connectionString, {
     dialect: 'postgres',
-    logging: false,
+    // logging: false,
     operatorsAliases,
     define: {
       freezeTableName: true
@@ -63,7 +63,7 @@ module.exports = function (app) {
     });
 
     // Sync to the database
-    sequelize.sync({force:true});
+    sequelize.sync({force:false});
 
     return result;
   };

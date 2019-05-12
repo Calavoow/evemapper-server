@@ -64,7 +64,7 @@ async function setEveSsoContext(context) {
  */
 async function createAssociatedUser(context) {
   // Set the user this character belongs to.
-  // TODO: Associate with exisiting user.
+  // TODO: Associate with existing user.
   // Create a new user
   const users = context.app.service('users');
   const user = await users.create({name: context.data.name});
