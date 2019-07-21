@@ -56,7 +56,9 @@
       ],
       "idField": "characterId",
       "entity": "characters",
-      "service": "characters"
+      "service": "characters",
+      "clientID": "myid",
+      "clientSecret": "mysecret"
     },
     "cookie": {
       "enabled": false,
@@ -64,7 +66,14 @@
       "httpOnly": true,
       "sameSite": true,
       "secure": false
+    },
+    "database": {
+      "username": "evemapper",
+      "password": "mypass",
+      "database": "evemapper",
+      "host": "localhost",
+      "port": 5432,
+      "dialect": "postgres"
     }
-  },
-  "postgres": "postgres://evemapper:test@localhost:5432/evemapper"
+  }
 }
